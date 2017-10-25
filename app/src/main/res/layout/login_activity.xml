@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dinoExample.maxim_ozarovskiy.artcoraltestapp.Activities.MainActivity"
+    >
+
+
+    <EditText
+        android:id="@+id/login_login_layout"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="@string/login"/>
+
+    <EditText
+        android:id="@+id/password_login_layout"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_login_layout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"
+        android:textAlignment="center"
+        android:hint="@string/password"/>
+
+    <TextView
+        android:id="@+id/password_error_alert_login_layout"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textColor="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password_login_layout"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/login_error_alert_login_layout"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textColor="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_login_layout"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/sign_in_btn_login_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password_login_layout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"
+        android:textAlignment="center"
+        android:text="@string/sign_in_btn"/>
+
+    <Button
+        android:id="@+id/register_btn_login_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/register"
+        android:layout_below="@+id/sign_in_btn_login_layout"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp" />
+
+
+
+</RelativeLayout>

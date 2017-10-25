@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <EditText
+        android:id="@+id/dino_name_add_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name_add"/>
+
+    <EditText
+        android:id="@+id/description_add_layout"
+        android:textAlignment="textStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dino_name_add_layout"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:hint="@string/description_add"/>
+
+    <Button
+        android:id="@+id/upload_image_add_layout"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_image"
+        android:layout_below="@+id/description_add_layout"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
+
+    <ImageView
+        android:id="@+id/uploaded_image_add_layout_image_view"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@+id/description_add_layout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/submit_btn_add_layout"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:layout_below="@+id/radio_group"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_below="@+id/upload_image_add_layout"
+        android:layout_alignParentStart="true">
+
+        <RadioButton
+            android:id="@+id/radio_color_green"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/radio_color_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/radio_color_purple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RadioGroup>
+
+    <TextView
+        android:textSize="25sp"
+        android:text="@string/red_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:layout_marginStart="9dp"
+        android:layout_alignTop="@+id/radio_group"
+        android:layout_toEndOf="@+id/radio_group"
+        android:id="@+id/textView2" />
+    <TextView
+        android:textSize="25sp"
+        android:text="@string/purple_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/submit_btn_add_layout"
+        android:layout_alignStart="@+id/textView2" />
+    <TextView
+        android:textSize="25sp"
+        android:text="@string/green_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/radio_group"
+        android:layout_alignStart="@+id/textView2"
+        android:id="@+id/textView" />
+    <TextView
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:id="@+id/load_image_alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:layout_below="@+id/uploaded_image_add_layout_image_view"
+        android:layout_alignEnd="@+id/uploaded_image_add_layout_image_view"
+        android:layout_alignStart="@+id/uploaded_image_add_layout_image_view" />
+    <TextView
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:id="@+id/create_dino_alert"
+        android:textColor="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description_add_layout"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>
+</ScrollView>

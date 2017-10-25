@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">ArtCoralTestApp</string>
+    <string name="login">Enter Login</string>
+    <string name="password">Password</string>
+    <string name="alert">Wrong Login or Password</string>
+    <string name="sign_in_btn">Sign In</string>
+    <string name="register">Register</string>
+    <string name="password_field">Enter your password</string>
+    <string name="email">Enter your mail adress</string>
+    <string name="submit">Submit</string>
+    <string name="add_btn">+Add</string>
+    <string name="name_add">Enter name of your pets</string>
+    <string name="description_add">Enter the description of your pet</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="no_user">Wrong User</string>
+    <string name="enter_user_name">Enter User Name</string>
+    <string name="enter_user_mail">Enter User Mail</string>
+    <string name="enter_user_pass">Enter User Pass</string>
+    <string name="user_reg_compete">You added new user</string>
+    <string name="logout">Logout</string>
+    <string name="green_color">Green</string>
+    <string name="purple_color">Purple</string>
+    <string name="red_color">Red</string>
+
+
+</resources>
