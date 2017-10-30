@@ -15,7 +15,7 @@ import retrofit2.http.POST;
 
 public interface CreateDinoService {
 
-    @Headers("Accepts: application/json")
+    @Headers({"Content-Type:application/json","Accepts: application/json"})
     @POST("rest/node")
     Call<DinoResponseExample> createDinoService(@Body DinoExample dinoExample, @Header("X-CSRF-Token") String token, @Header("Cookie") String cookie);
 }

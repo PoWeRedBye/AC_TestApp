@@ -3,8 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AC_TestApp-master.iml" filepath="$PROJECT_DIR$/AC_TestApp-master.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ArtCoralTestApp.iml" filepath="$PROJECT_DIR$/ArtCoralTestApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Maxim_Ozarovskiy\AndroidStudioProjects\AC_TestApp-master\ArtCoralTestApp.iml" filepath="C:\Users\Maxim_Ozarovskiy\AndroidStudioProjects\AC_TestApp-master\ArtCoralTestApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

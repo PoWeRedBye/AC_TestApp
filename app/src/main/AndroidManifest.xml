@@ -22,7 +22,11 @@
         <activity android:name="com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActivity" />
         <activity android:name="com.example.maxim_ozarovskiy.artcoraltestapp.activities.MainActivity" />
         <activity android:name="com.example.maxim_ozarovskiy.artcoraltestapp.activities.RegisterActivity" />
-        <activity android:name="com.example.maxim_ozarovskiy.artcoraltestapp.activities.CreateDinoActivity" />
+        <activity android:name="com.example.maxim_ozarovskiy.artcoraltestapp.activities.CreateDinoActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.PICK"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

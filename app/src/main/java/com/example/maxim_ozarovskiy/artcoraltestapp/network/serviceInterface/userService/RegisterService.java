@@ -13,7 +13,7 @@ import retrofit2.http.POST;
 
 public interface RegisterService {
 
-    @Headers("Accepts: application/json")
+    @Headers({"Content-Type:application/json","Accepts: application/json"})
     @POST("rest/user")
     Call<User> registerService(@Body User user);
 

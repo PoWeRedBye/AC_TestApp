@@ -1,4 +1,4 @@
-package com.example.maxim_ozarovskiy.artcoraltestapp.Activities;
+package com.example.maxim_ozarovskiy.artcoraltestapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,22 +18,26 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dinoExample.maxim_ozarovskiy.artcoraltestapp.R;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel.DinoExample;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel.DinoResponseExample;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel.FieldDinoAbout;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel.FieldDinoBirthDate;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel.FieldDinoColor;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel.FieldDitoImage;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel.Und;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel.Und_;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel.Und__;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel.Und___;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel.Value;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.File.FileExample;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Model.File.FileResponse;
-import com.example.maxim_ozarovskiy.artcoraltestapp.Network.RESTСlient;
+import com.example.maxim_ozarovskiy.artcoraltestapp.interfaces.CreateDinoContract;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel.DinoExample;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel.DinoResponseExample;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel.FieldDinoAbout;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel.FieldDinoBirthDate;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel.FieldDinoColor;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel.FieldDitoImage;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel.Und;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel.Und_;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel.Und__;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel.Und___;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel.Value;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.file.FileExample;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.file.FileResponse;
+import com.example.maxim_ozarovskiy.artcoraltestapp.network.RESTСlient;
+import com.example.maxim_ozarovskiy.artcoraltestapp.presenter.CreateDinoPresenter;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -43,44 +47,33 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.maxim_ozarovskiy.artcoraltestapp.Activities.LoginActivity.APP_PREFERENCES;
-import static com.example.maxim_ozarovskiy.artcoraltestapp.Activities.LoginActivity.APP_PREFERENCES_SESSION_ID;
-import static com.example.maxim_ozarovskiy.artcoraltestapp.Activities.LoginActivity.APP_PREFERENCES_SESSION_NAME;
-import static com.example.maxim_ozarovskiy.artcoraltestapp.Activities.LoginActivity.APP_PREFERENCES_TOKEN;
-import static com.example.maxim_ozarovskiy.artcoraltestapp.Activities.LoginActivity.APP_PREFERENCES_USER_NAME;
-import static com.example.maxim_ozarovskiy.artcoraltestapp.Utils.ImageUtil.REQUEST_IMAGE_GALLERY;
+import static com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActivity.APP_PREFERENCES;
+import static com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActivity.APP_PREFERENCES_SESSION_ID;
+import static com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActivity.APP_PREFERENCES_SESSION_NAME;
+import static com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActivity.APP_PREFERENCES_TOKEN;
+import static com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActivity.APP_PREFERENCES_USER_NAME;
+import static com.example.maxim_ozarovskiy.artcoraltestapp.utils.ImageUtil.REQUEST_IMAGE_GALLERY;
 
 /**
  * Created by Maxim_Ozarovskiy on 22.10.2017.
  */
 
-public class CreateDinoActivity extends AppCompatActivity {
+public class CreateDinoActivity extends AppCompatActivity implements CreateDinoContract.view {
 
     private Button upload_image;
     private Button submit;
     private EditText dino_name;
     private EditText dino_description;
     private ImageView uploaded_image;
-    private RadioGroup radioGroup;
     private RadioButton green_radio_btn;
     private RadioButton red_radio_btn;
     private RadioButton purple_radio_btn;
+    private TextView createDinoAlert;
+    private TextView uploadFileAlert;
 
-    private FileExample fileExample;
-    private FileResponse fileResponse;
-
-    private DinoExample dinoExample;
-    private DinoResponseExample dinoResponse;
-
-    private static String selectedImagePath;
     private SharedPreferences mySettings;
-
-    private String encodedString;
-    private int size;
     private String token;
     private String cookie;
-    private String sessIdText;
-    private String sessNameText;
     private String userName;
     private String fileID;
 
@@ -89,15 +82,16 @@ public class CreateDinoActivity extends AppCompatActivity {
 
     private String radioCheck;
 
-
+    private CreateDinoPresenter presenter;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dino_add);
-
+        presenter = new CreateDinoPresenter(this);
         initUI();
+        getCookie();
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -111,7 +105,8 @@ public class CreateDinoActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createDino();
+                getDinoData();
+                presenter.createNewDino(fileID,radioCheck,dinoName,dinoDescription,userName,token,cookie);
 
             }
         });
@@ -141,6 +136,7 @@ public class CreateDinoActivity extends AppCompatActivity {
                     break;
 
                 default:
+                    radioCheck = "98";
                     break;
             }
         }
@@ -152,69 +148,9 @@ public class CreateDinoActivity extends AppCompatActivity {
         finish();
     }
 
-    private void createDinoEample(){
-        RESTСlient.getInstance().createDino().createDino(dinoExample,token,cookie).enqueue(new Callback<DinoResponseExample>() {
-            @Override
-            public void onResponse(Call<DinoResponseExample> call, Response<DinoResponseExample> response) {
-                dinoResponse = response.body();
-                startMainActivity();
-                finish();
-            }
-
-            @Override
-            public void onFailure(Call<DinoResponseExample> call, Throwable t) {
-
-            }
-        });
-    }
-
     private void getDinoData(){
         dinoName = dino_name.getText().toString();
         dinoDescription = dino_description.getText().toString();
-
-    }
-
-    private void createDino(){
-        String day = new SimpleDateFormat("dd").format(new java.util.Date());
-        String month = new SimpleDateFormat("MM").format(new java.util.Date());
-        String year = new SimpleDateFormat("yyyy").format(new java.util.Date());
-
-        getDinoData();
-
-        Value value = new Value();
-        value.setDay(day);
-        value.setYear(year);
-        value.setMonth(month);
-
-        Und und = new Und();
-        und.setTid(radioCheck);
-        Und_ und_ = new Und_();
-        und_.setValue(dinoDescription);
-        Und__ und__ = new Und__();
-        und__.setValue(value);
-        Und___ und___ = new Und___();
-        und___.setFid(fileID);
-        FieldDitoImage fieldDitoImage = new FieldDitoImage();
-        fieldDitoImage.setUnd(Arrays.asList(und___));
-        FieldDinoAbout fieldDinoAbout = new FieldDinoAbout();
-        fieldDinoAbout.setUnd(Arrays.asList(und_));
-        FieldDinoBirthDate fieldDinoBirthDate = new FieldDinoBirthDate();
-        fieldDinoBirthDate.setUnd(Arrays.asList(und__));
-        FieldDinoColor fieldDinoColor = new FieldDinoColor();
-        fieldDinoColor.setUnd(und);
-
-
-        dinoExample = new DinoExample();
-        dinoExample.setTitle(dinoName);
-        dinoExample.setStatus("1");
-        dinoExample.setName(userName);
-        dinoExample.setType("dino");
-        dinoExample.setFieldDinoColor(fieldDinoColor);
-        dinoExample.setFieldDinoAbout(fieldDinoAbout);
-        dinoExample.setFieldDinoBirthDate(fieldDinoBirthDate);
-        dinoExample.setFieldDitoImage(fieldDitoImage);
-
-        createDinoEample();
     }
 
     private void getCookie(){
@@ -222,8 +158,8 @@ public class CreateDinoActivity extends AppCompatActivity {
                 && mySettings.contains(APP_PREFERENCES_SESSION_ID)
                 && mySettings.contains(APP_PREFERENCES_SESSION_NAME) && mySettings.contains(APP_PREFERENCES_USER_NAME)) {
             token = mySettings.getString(APP_PREFERENCES_TOKEN, "");
-            sessIdText = mySettings.getString(APP_PREFERENCES_SESSION_ID, "");
-            sessNameText = mySettings.getString(APP_PREFERENCES_SESSION_NAME, "");
+            String sessIdText = mySettings.getString(APP_PREFERENCES_SESSION_ID, "");
+            String sessNameText = mySettings.getString(APP_PREFERENCES_SESSION_NAME, "");
             userName = mySettings.getString(APP_PREFERENCES_USER_NAME, "");
 
             cookie = sessNameText + "=" + sessIdText;
@@ -231,38 +167,18 @@ public class CreateDinoActivity extends AppCompatActivity {
         }
     }
 
-    private void getUploadData() {
-            getCookie();
-            uploadImageToServer();
-
-    }
-
-
-    private void uploadImageToServer() {
-        RESTСlient.getInstance().fileAdd().fileAdd(fileExample, token, cookie).enqueue(new Callback<FileResponse>() {
-            @Override
-            public void onResponse(Call<FileResponse> call, Response<FileResponse> response) {
-                fileResponse = response.body();
-                fileID = fileResponse.getFid();
-            }
-
-            @Override
-            public void onFailure(Call<FileResponse> call, Throwable t) {
-
-            }
-        });
-    }
-
     private void initUI() {
         upload_image = (Button) findViewById(R.id.upload_image_add_layout);
         submit = (Button) findViewById(R.id.submit_btn_add_layout);
+        submit.setVisibility(View.INVISIBLE);
         dino_name = (EditText) findViewById(R.id.dino_name_add_layout);
         dino_description = (EditText) findViewById(R.id.description_add_layout);
         uploaded_image = (ImageView) findViewById(R.id.uploaded_image_add_layout_image_view);
-        radioGroup = (RadioGroup) findViewById(R.id.radio_group);
         green_radio_btn = (RadioButton) findViewById(R.id.radio_color_green);
         red_radio_btn = (RadioButton) findViewById(R.id.radio_color_red);
         purple_radio_btn = (RadioButton) findViewById(R.id.radio_color_purple);
+        createDinoAlert = (TextView) findViewById(R.id.create_dino_alert);
+        uploadFileAlert = (TextView) findViewById(R.id.load_image_alert);
 
         mySettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
@@ -274,27 +190,6 @@ public class CreateDinoActivity extends AppCompatActivity {
         startActivityForResult(intent_gallery, REQUEST_IMAGE_GALLERY);
     }
 
-    private void encodeImage() {
-        Bitmap bm = BitmapFactory.decodeFile(selectedImagePath);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-        byte[] b = baos.toByteArray();
-        size = b.length;
-        encodedString = Base64.encodeToString(b, Base64.DEFAULT);
-        createNewFile();
-    }
-
-    private void createNewFile() {
-        String imageName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new java.util.Date());
-        fileExample = new FileExample();
-        fileExample.setFile(encodedString);
-        fileExample.setFilename(imageName + ".jpg");
-        fileExample.setFilemime("jpg");
-        fileExample.setTargetUri(imageName + ".jpg");
-        fileExample.setFilesize(String.valueOf(size));
-        getUploadData();
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -303,10 +198,10 @@ public class CreateDinoActivity extends AppCompatActivity {
 
                 case REQUEST_IMAGE_GALLERY:
                     Uri selectedImageUri = intent.getData();
-                    selectedImagePath = getImagePath(selectedImageUri);
+                    String selectedImagePath = getImagePath(selectedImageUri);
                     Bitmap bitmap_gallery = BitmapFactory.decodeFile(selectedImagePath);
                     uploaded_image.setImageBitmap(bitmap_gallery);
-                    encodeImage();
+                    presenter.uploadNewFile(token,cookie, selectedImagePath);
                     break;
             }
         }
@@ -327,6 +222,30 @@ public class CreateDinoActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         startMainActivity();
         return true;
+    }
+
+
+    @Override
+    public void callbackFile(String newFileId) {
+        fileID = newFileId;
+        submit.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void callbackFileError(String fileAlert) {
+        uploadFileAlert.setText(fileAlert);
+    }
+
+    @Override
+    public void callbackCreateDino(String response) {
+        Toast.makeText(this,response,Toast.LENGTH_LONG).show();
+        startMainActivity();
+    }
+
+    @Override
+    public void callbackCreateDinoError(String dinoAlert) {
+        createDinoAlert.setText(dinoAlert);
     }
 }
 

@@ -13,7 +13,7 @@ import retrofit2.http.Headers;
 
 public interface GetDinoService {
 
-    @Headers("Accepts: application/json")
+    @Headers({"Content-Type:application/json","Accepts: application/json"})
     @GET("rest/dinos")
     Call<DinoViewExample> getDinoService(@Header("X-CSRF-Token") String token, @Header("Cookie") String cookie);
 }

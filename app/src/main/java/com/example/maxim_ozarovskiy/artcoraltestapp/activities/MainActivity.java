@@ -13,12 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.dinoExample.maxim_ozarovskiy.artcoraltestapp.R;
 import com.example.maxim_ozarovskiy.artcoraltestapp.adapter.DinoListAdapter;
+import com.example.maxim_ozarovskiy.artcoraltestapp.interfaces.MainViewContract;
 import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoView.Dino;
 import com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoView.DinoViewExample;
 import com.example.maxim_ozarovskiy.artcoraltestapp.network.RESTСlient;
+import com.example.maxim_ozarovskiy.artcoraltestapp.presenter.MainPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,7 @@ import static com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActiv
 import static com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActivity.APP_PREFERENCES_TOKEN;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainViewContract.view {
 
     private Button add;
     private String token;
@@ -49,14 +52,15 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RelativeLayout relativeLayout;
     private SharedPreferences mySettings;
+    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recycler_view);
+        presenter = new MainPresenter(this);
         initUI();
         getData();
-
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
             cookie = sessIdText + "=" + sessNameText;
             cookie2 = sessNameText + "=" + sessIdText;
-            getDinos();
+            presenter.getDino(token,cookie);
         }
 
     }
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout_toolbar_btn:
-                logoutUser();
+                presenter.logoutUserButton(token,cookie2);
                 return (true);
         }
         return(super.onOptionsItemSelected(item));
@@ -115,23 +119,6 @@ public class MainActivity extends AppCompatActivity {
         editor.remove("user_name");
         editor.apply();
 
-    }
-
-    private void logoutUser() {
-        RESTСlient.getInstance().logoutService().logoutService(token,cookie2).enqueue(new Callback<ArrayList>() {
-            @Override
-            public void onResponse(Call<ArrayList> call, Response<ArrayList> response) {
-                if(response.isSuccessful()){
-                    clearPreffs();
-                    goToLoginScreen();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList> call, Throwable t) {
-
-            }
-        });
     }
 
     private void goToLoginScreen() {
@@ -176,20 +163,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getDinos() {
-
-        RESTСlient.getInstance().getDinoService().getDinoService(token, cookie).enqueue(new Callback<DinoViewExample>() {
-            @Override
-            public void onResponse(Call<DinoViewExample> call, Response<DinoViewExample> response) {
-                dinoViewList = new ArrayList<Dino>();
-                dinoViewList.addAll(response.body().getDinos());
-                setData();
-            }
-
-            @Override
-            public void onFailure(Call<DinoViewExample> call, Throwable t) {
-
-            }
-        });
+    @Override
+    public void callbackDino(List<Dino> dino) {
+        dinoViewList = dino;
+        setData();
     }
+
+    @Override
+    public void callbackDinoError(String alert) {
+        Toast.makeText(this,alert,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void callbackLogout(String successfull) {
+        Toast.makeText(this,successfull,Toast.LENGTH_LONG).show();
+        clearPreffs();
+        goToLoginScreen();
+        finish();
+    }
+
+    @Override
+    public void callbackLogoutError(String alert) {
+        Toast.makeText(this,alert,Toast.LENGTH_LONG).show();
+    }
+
 }

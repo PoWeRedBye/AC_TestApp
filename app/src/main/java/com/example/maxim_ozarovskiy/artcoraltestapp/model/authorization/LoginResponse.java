@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Maxim_Ozarovskiy on 20.10.2017.
  */
 
-public class LoginExample {
+public class LoginResponse {
 
     @SerializedName("sessid")
     @Expose

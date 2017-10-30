@@ -1,4 +1,4 @@
-package com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel;
+package com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

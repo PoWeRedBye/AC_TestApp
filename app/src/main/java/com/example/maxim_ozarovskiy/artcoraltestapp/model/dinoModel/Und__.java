@@ -1,4 +1,4 @@
-package com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel;
+package com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel;
 
 /**
  * Created by Maxim_Ozarovskiy on 21.10.2017.

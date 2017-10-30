@@ -1,7 +1,7 @@
 package com.example.maxim_ozarovskiy.artcoraltestapp.network.serviceInterface.userService;
 
-import com.example.maxim_ozarovskiy.artcoraltestapp.model.authorization.Login;
-import com.example.maxim_ozarovskiy.artcoraltestapp.model.authorization.LoginExample;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.authorization.LoginModel;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.authorization.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 
 public interface LoginService {
 
-    @Headers("Accepts: application/json")
+    @Headers({"Content-Type:application/json","Accepts: application/json"})
     @POST("rest/user/login")
-    Call<LoginExample> loginService(@Body Login login);
+    Call<LoginResponse> loginService(@Body LoginModel loginModel);
 }

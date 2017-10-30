@@ -15,7 +15,7 @@ import retrofit2.http.POST;
 
 public interface FileAddService {
 
-    @Headers("Accepts: application/json")
+    @Headers({"Content-Type:application/json","Accepts: application/json"})
     @POST("rest/file")
     Call<FileResponse> fileAddService(@Body FileExample fileExample, @Header("X-CSRF-Token") String token, @Header("Cookie") String cookie);
 }

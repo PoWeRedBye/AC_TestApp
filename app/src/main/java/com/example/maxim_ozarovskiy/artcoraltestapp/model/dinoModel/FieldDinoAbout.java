@@ -1,8 +1,9 @@
-package com.example.maxim_ozarovskiy.artcoraltestapp.Model.DinoModel;
+package com.example.maxim_ozarovskiy.artcoraltestapp.model.dinoModel;
 
 /**
  * Created by Maxim_Ozarovskiy on 21.10.2017.
  */
+
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

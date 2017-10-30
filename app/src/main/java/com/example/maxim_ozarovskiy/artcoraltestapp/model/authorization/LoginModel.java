@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Maxim_Ozarovskiy on 20.10.2017.
  */
 
-public class Login {
+public class LoginModel {
 
     @SerializedName("username")
     @Expose
@@ -16,7 +16,7 @@ public class Login {
     @Expose
     private String password;
 
-    public Login(){
+    public LoginModel(){
 
     }
 
@@ -38,7 +38,7 @@ public class Login {
 
     @Override
     public String toString() {
-        return "Login{" +
+        return "LoginModel{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';

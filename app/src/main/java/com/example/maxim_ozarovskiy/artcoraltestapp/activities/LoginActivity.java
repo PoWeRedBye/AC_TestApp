@@ -14,19 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dinoExample.maxim_ozarovskiy.artcoraltestapp.R;
-import com.example.maxim_ozarovskiy.artcoraltestapp.model.authorization.Login;
-import com.example.maxim_ozarovskiy.artcoraltestapp.model.authorization.LoginExample;
-import com.example.maxim_ozarovskiy.artcoraltestapp.network.RESTСlient;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.example.maxim_ozarovskiy.artcoraltestapp.interfaces.LoginViewContract;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.authorization.LoginModel;
+import com.example.maxim_ozarovskiy.artcoraltestapp.model.authorization.LoginResponse;
+import com.example.maxim_ozarovskiy.artcoraltestapp.presenter.LoginPresenter;
 
 /**
  * Created by Maxim_Ozarovskiy on 19.10.2017.
  */
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginViewContract.view {
 
     public static final String APP_PREFERENCES = "mysettings";
     public static final String APP_PREFERENCES_TOKEN = "token";
@@ -34,20 +31,20 @@ public class LoginActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES_SESSION_NAME = "session_name";
     public static final String APP_PREFERENCES_USER_NAME = "user_name";
 
-
     private EditText login;
     private EditText password;
     private Button signIn;
     private Button register;
     private TextView alert;
 
-
     private String name;
     private String pass;
-    private Login loginEx;
+    private LoginModel loginModelEx;
 
-    private LoginExample loginModel;
+    private LoginResponse loginModel;
     private SharedPreferences mySettings;
+
+    private LoginPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,12 +52,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_activity);
         initUI();
 
+        presenter = new LoginPresenter(this);
+
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getData();
                 if (isValidData()) {
-                    userLogin();
+                    presenter.onButtonClick(name,pass);
                 }
             }
         });
@@ -75,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initUI() {
-        setTitle("Login");
+        setTitle("LoginModel");
         login = (EditText) findViewById(R.id.login_login_layout);
         password = (EditText) findViewById(R.id.password_login_layout);
         signIn = (Button) findViewById(R.id.sign_in_btn_login_layout);
@@ -83,33 +82,6 @@ public class LoginActivity extends AppCompatActivity {
         alert = (TextView) findViewById(R.id.password_error_alert_login_layout);
 
         mySettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-    }
-
-    private void userLogin() {
-
-        RESTСlient.getInstance().loginService().loginService(loginEx).enqueue(new Callback<LoginExample>() {
-            @Override
-            public void onResponse(Call<LoginExample> call, Response<LoginExample> response) {
-                if (response.isSuccessful()) {
-                    loginModel = response.body();
-                    SharedPreferences.Editor editor = mySettings.edit();
-                    editor.putString(APP_PREFERENCES_TOKEN, loginModel.getToken());
-                    editor.putString(APP_PREFERENCES_SESSION_ID, loginModel.getSessid());
-                    editor.putString(APP_PREFERENCES_SESSION_NAME, loginModel.getSessionName());
-                    editor.putString(APP_PREFERENCES_USER_NAME, loginModel.getUser().getName());
-                    editor.apply();
-                    startMainActivity();
-
-                } else {
-                    alert.setText(response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginExample> call, Throwable t) {
-
-            }
-        });
     }
 
     private boolean isValidData() {
@@ -128,10 +100,6 @@ public class LoginActivity extends AppCompatActivity {
     private void getData() {
         name = login.getText().toString();
         pass = password.getText().toString();
-
-        loginEx = new Login();
-        loginEx.setUsername(name);
-        loginEx.setPassword(pass);
     }
 
     private void startMainActivity() {
@@ -146,5 +114,26 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    private void setSharedPreffs(){
+        SharedPreferences.Editor editor = mySettings.edit();
+        editor.putString(APP_PREFERENCES_TOKEN, loginModel.getToken());
+        editor.putString(APP_PREFERENCES_SESSION_ID, loginModel.getSessid());
+        editor.putString(APP_PREFERENCES_SESSION_NAME, loginModel.getSessionName());
+        editor.putString(APP_PREFERENCES_USER_NAME, loginModel.getUser().getName());
+        editor.apply();
+    }
 
+
+    @Override
+    public void callback(LoginResponse loginModels) {
+        loginModel = loginModels;
+        setSharedPreffs();
+        startMainActivity();
+    }
+
+    @Override
+    public void callbackError(String alertResponce) {
+        alert.setText(alertResponce);
+
+    }
 }
