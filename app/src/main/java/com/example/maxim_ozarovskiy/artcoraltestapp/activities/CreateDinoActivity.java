@@ -170,7 +170,6 @@ public class CreateDinoActivity extends AppCompatActivity implements CreateDinoC
     private void initUI() {
         upload_image = (Button) findViewById(R.id.upload_image_add_layout);
         submit = (Button) findViewById(R.id.submit_btn_add_layout);
-        submit.setVisibility(View.INVISIBLE);
         dino_name = (EditText) findViewById(R.id.dino_name_add_layout);
         dino_description = (EditText) findViewById(R.id.description_add_layout);
         uploaded_image = (ImageView) findViewById(R.id.uploaded_image_add_layout_image_view);
@@ -228,8 +227,6 @@ public class CreateDinoActivity extends AppCompatActivity implements CreateDinoC
     @Override
     public void callbackFile(String newFileId) {
         fileID = newFileId;
-        submit.setVisibility(View.VISIBLE);
-
     }
 
     @Override
