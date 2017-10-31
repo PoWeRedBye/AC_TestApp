@@ -11,26 +11,26 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.dinoExample.maxim_ozarovskiy.artcoraltestapp.R;
+import com.example.maxim_ozarovskiy.artcoraltestapp.interfaces.SplashContract;
+import com.example.maxim_ozarovskiy.artcoraltestapp.presenter.SplashPresenter;
 
 import static com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActivity.APP_PREFERENCES;
-import static com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActivity.APP_PREFERENCES_SESSION_ID;
-import static com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActivity.APP_PREFERENCES_SESSION_NAME;
-import static com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActivity.APP_PREFERENCES_TOKEN;
-import static com.example.maxim_ozarovskiy.artcoraltestapp.activities.LoginActivity.APP_PREFERENCES_USER_NAME;
 
 /**
  * Created by Maxim_Ozarovskiy on 19.10.2017.
  */
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity implements SplashContract.view {
 
     private ImageView splash;
     private SharedPreferences mySettings;
+    private SplashPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_activity);
+        presenter = new SplashPresenter(this);
         splash = (ImageView) findViewById(R.id.animation_view);
         Glide.with(this).load(R.raw.dino).asGif().into(splash);
         mySettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
@@ -38,14 +38,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (mySettings.contains(APP_PREFERENCES_TOKEN)
-                        && mySettings.contains(APP_PREFERENCES_SESSION_ID)
-                        && mySettings.contains(APP_PREFERENCES_SESSION_NAME)
-                        && mySettings.contains(APP_PREFERENCES_USER_NAME)) {
-                    startMainActivity();
-                } else {
-                    startLoginActivity();
-                }
+                presenter.getInfoByUser(mySettings);
             }
         }, 3000);
     }
@@ -59,5 +52,15 @@ public class SplashActivity extends AppCompatActivity {
         Intent intentMain = new Intent(getApplicationContext(),MainActivity.class);
         startActivity(intentMain);
         finish();
+    }
+
+    @Override
+    public void callbackMain() {
+        startMainActivity();
+    }
+
+    @Override
+    public void callbackLogin() {
+        startLoginActivity();
     }
 }
